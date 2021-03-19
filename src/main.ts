@@ -25,8 +25,8 @@ async function run(): Promise<void> {
 
     core.startGroup('allurectl upload')
 
-    await exec(
-      'allurectl upload --job-run-child --timeout 1800 build/allure-results & echo 0',
+    exec(
+      'allurectl upload --job-run-child --timeout 1800 build/allure-results',
       [],
       execOpts
     )
