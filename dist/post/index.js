@@ -1616,9 +1616,10 @@ function run() {
             core.startGroup('shut down allurectl upload');
             yield exec_1.exec('kill', ['-3', state], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             core.endGroup();
-            core.startGroup('allurectl upload');
-            yield exec_1.exec('allurectl upload --job-run-child build/allure-results');
-            core.endGroup();
+            //
+            // core.startGroup('allurectl upload')
+            // await exec('allurectl upload --job-run-child build/allure-results')
+            // core.endGroup()
             core.startGroup('allurectl job-run stop');
             yield exec_1.exec('allurectl job-run stop', [], execOpts);
             core.endGroup();
