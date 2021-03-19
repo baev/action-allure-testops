@@ -1600,13 +1600,9 @@ function run() {
             yield exec_1.exec('allurectl job-run plan --output-file', [testPlanJson], execOpts);
             core.endGroup();
             core.startGroup('allurectl upload');
-            // run without await as we need to detach.
-            yield exec_1.exec('allurectl upload --job-run-child --timeout 1800 build/allure-results &', [], execOpts);
-            // // wait for 3 seconds to start upload and so on
-            // await new Promise(resolve => setTimeout(() => resolve('done'), 3 * 1000))
+            // https://github.com/actions/toolkit/issues/461.
+            yield exec_1.exec(`bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`, [], execOpts);
             core.endGroup();
-            // skip wait on child processes
-            // process.exit(0)
         }
         catch (error) {
             core.setFailed(error.message);
