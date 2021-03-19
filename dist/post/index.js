@@ -1607,6 +1607,7 @@ function run() {
             core.startGroup('pid atatata');
             const state = core.getState(constants_1.ALLURECTL_PID);
             core.info(`allurectl upload pid ${state}`);
+            yield exec_1.exec('ps', ['-p', state], execOpts);
             core.endGroup();
             core.startGroup('wait for 10 seconds to finish upload');
             // wait for 3 seconds to start upload and so on

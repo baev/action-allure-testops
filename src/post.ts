@@ -18,6 +18,9 @@ async function run(): Promise<void> {
     core.startGroup('pid atatata')
     const state = core.getState(ALLURECTL_PID)
     core.info(`allurectl upload pid ${state}`)
+
+    await exec('ps', ['-p', state], execOpts)
+
     core.endGroup()
 
     core.startGroup('wait for 10 seconds to finish upload')

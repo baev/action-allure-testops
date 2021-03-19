@@ -29,7 +29,13 @@ async function run(): Promise<void> {
 
     const cp = child.spawn(
       'allurectl',
-      ['upload', '--job-run-child', '--timeout 1800', 'build/allure-results'],
+      [
+        'upload',
+        '--job-run-child',
+        '--timeout',
+        '1800',
+        'build/allure-results'
+      ],
       {
         stdio: ['ignore', process.stdout, process.stderr],
         detached: true

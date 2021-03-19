@@ -1613,7 +1613,13 @@ function run() {
             yield exec_1.exec('allurectl job-run plan --output-file', [testPlanJson], execOpts);
             core.endGroup();
             core.startGroup('allurectl upload');
-            const cp = child.spawn('allurectl', ['upload', '--job-run-child', '--timeout 1800', 'build/allure-results'], {
+            const cp = child.spawn('allurectl', [
+                'upload',
+                '--job-run-child',
+                '--timeout',
+                '1800',
+                'build/allure-results'
+            ], {
                 stdio: ['ignore', process.stdout, process.stderr],
                 detached: true
             });
