@@ -1603,6 +1603,8 @@ function run() {
             // https://github.com/actions/toolkit/issues/461.
             yield exec_1.exec(`/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`, [], execOpts);
             core.endGroup();
+            yield exec_1.exec('echo $!', [], execOpts);
+            process.exit(0);
         }
         catch (error) {
             core.setFailed(error.message);

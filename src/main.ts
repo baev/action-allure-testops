@@ -33,6 +33,10 @@ async function run(): Promise<void> {
     )
 
     core.endGroup()
+
+    await exec('echo $!', [], execOpts)
+
+    process.exit(0)
   } catch (error) {
     core.setFailed(error.message)
   }
