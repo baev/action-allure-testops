@@ -1621,11 +1621,11 @@ function run() {
                 '1800',
                 'build/allure-results'
             ], {
-                stdio: ['ignore', process.stdout, process.stderr],
+                stdio: 'ignore',
                 detached: true
             });
-            cp.unref();
             core.saveState(constants_1.ALLURECTL_PID, cp.pid);
+            cp.unref();
             core.endGroup();
         }
         catch (error) {
