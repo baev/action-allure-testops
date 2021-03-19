@@ -31,6 +31,10 @@ async function run(): Promise<void> {
       [],
       execOpts
     )
+
+    // wait for 3 seconds to start upload and so on
+    await new Promise(resolve => setTimeout(() => resolve('done'), 3 * 1000))
+
     core.endGroup()
 
     // skip wait on child processes

@@ -1602,6 +1602,8 @@ function run() {
             core.startGroup('allurectl upload');
             // run without await as we need to detach.
             exec_1.exec('allurectl upload --job-run-child --timeout 1800 build/allure-results', [], execOpts);
+            // wait for 3 seconds to start upload and so on
+            yield new Promise(resolve => setTimeout(() => resolve('done'), 3 * 1000));
             core.endGroup();
             // skip wait on child processes
             process.exit(0);
