@@ -1600,7 +1600,7 @@ function run() {
             yield exec_1.exec('allurectl job-run plan --output-file', [testPlanJson], execOpts);
             core.endGroup();
             core.startGroup('allurectl upload');
-            yield exec_1.exec('allurectl upload --job-run-child --timeout 1800 build/allure-results & echo "upload started"', [], execOpts);
+            yield exec_1.exec('allurectl upload --timeout 1800 build/allure-results & echo "upload started"', [], execOpts);
             core.endGroup();
         }
         catch (error) {
