@@ -38,13 +38,14 @@ async function run(): Promise<void> {
         'build/allure-results'
       ],
       {
-        stdio: ['ignore', process.stdout, process.stderr],
+        stdio: 'ignore',
         detached: true
       }
     )
-    cp.unref()
 
     core.saveState(ALLURECTL_PID, cp.pid)
+    cp.unref()
+
     core.endGroup()
   } catch (error) {
     core.setFailed(error.message)
