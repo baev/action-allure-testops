@@ -1592,6 +1592,13 @@ function run() {
                     stdout: data => core.setOutput('stdout', data)
                 }
             };
+            core.startGroup('wait for 10 seconds to finish upload');
+            // wait for 3 seconds to start upload and so on
+            yield new Promise(resolve => setTimeout(() => resolve('done'), 10 * 1000));
+            core.endGroup();
+            core.startGroup('pgrep allurectl');
+            yield exec_1.exec('pgrep allurectl', [], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
+            core.endGroup();
             core.startGroup('pkill allurectl');
             yield exec_1.exec('pkill allurectl', [], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             core.endGroup();
