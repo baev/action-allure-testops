@@ -1593,7 +1593,7 @@ function run() {
                 }
             };
             core.startGroup('pkill allurectl');
-            yield exec_1.exec('pkill allurectl', [], execOpts);
+            yield exec_1.exec('pkill allurectl', [], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             core.endGroup();
             core.startGroup('allurectl job-run stop');
             yield exec_1.exec('allurectl job-run stop', [], execOpts);

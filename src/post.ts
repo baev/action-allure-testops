@@ -15,7 +15,7 @@ async function run(): Promise<void> {
     }
 
     core.startGroup('pkill allurectl')
-    await exec('pkill allurectl', [], execOpts)
+    await exec('pkill allurectl', [], {...execOpts, ignoreReturnCode: true})
     core.endGroup()
 
     core.startGroup('allurectl job-run stop')
