@@ -1601,7 +1601,7 @@ function run() {
             core.endGroup();
             core.startGroup('allurectl upload');
             // https://github.com/actions/toolkit/issues/461.
-            yield exec_1.exec(`bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`, [], execOpts);
+            yield exec_1.exec(`/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`, [], execOpts);
             core.endGroup();
         }
         catch (error) {

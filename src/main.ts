@@ -27,7 +27,7 @@ async function run(): Promise<void> {
 
     // https://github.com/actions/toolkit/issues/461.
     await exec(
-      `bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`,
+      `/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`,
       [],
       execOpts
     )
