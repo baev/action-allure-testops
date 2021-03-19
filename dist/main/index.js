@@ -1545,6 +1545,17 @@ function copyFile(srcFile, destFile, force) {
 
 /***/ }),
 
+/***/ 42:
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ALLURECTL_PID = void 0;
+exports.ALLURECTL_PID = 'ALLURECTL_PID';
+
+
+/***/ }),
+
 /***/ 399:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -1580,6 +1591,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const exec_1 = __webpack_require__(514);
+const child = __importStar(__webpack_require__(129));
+const constants_1 = __webpack_require__(42);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -1600,11 +1613,23 @@ function run() {
             yield exec_1.exec('allurectl job-run plan --output-file', [testPlanJson], execOpts);
             core.endGroup();
             core.startGroup('allurectl upload');
-            // https://github.com/actions/toolkit/issues/461.
-            yield exec_1.exec(`/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`, [], execOpts);
+            const cp = child.spawn('allurectl', ['upload', '--job-run-child', '--timeout 1800', 'build/allure-results'], {
+                stdio: ['ignore', process.stdout, process.stderr],
+                detached: true
+            });
+            core.saveState(constants_1.ALLURECTL_PID, cp.pid);
+            //
+            // // https://github.com/actions/toolkit/issues/461.
+            // await exec(
+            //   `/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`,
+            //   [],
+            //   execOpts
+            // )
             core.endGroup();
-            yield exec_1.exec('echo $!', [], execOpts);
-            process.exit(0);
+            //
+            // await exec('echo $!', [], execOpts)
+            //
+            // process.exit(0)
         }
         catch (error) {
             core.setFailed(error.message);

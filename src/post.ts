@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import {exec} from '@actions/exec'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
+import {ALLURECTL_PID} from './constants'
 
 async function run(): Promise<void> {
   try {
@@ -13,6 +14,11 @@ async function run(): Promise<void> {
         stdout: data => core.setOutput('stdout', data)
       }
     }
+
+    core.startGroup('pid atatata')
+    const state = core.getState(ALLURECTL_PID)
+    core.info(`allurectl upload pid ${state}`)
+    core.endGroup()
 
     core.startGroup('wait for 10 seconds to finish upload')
     // wait for 3 seconds to start upload and so on

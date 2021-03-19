@@ -1545,6 +1545,17 @@ function copyFile(srcFile, destFile, force) {
 
 /***/ }),
 
+/***/ 42:
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ALLURECTL_PID = void 0;
+exports.ALLURECTL_PID = 'ALLURECTL_PID';
+
+
+/***/ }),
+
 /***/ 51:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -1580,6 +1591,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const exec_1 = __webpack_require__(514);
+const constants_1 = __webpack_require__(42);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -1592,6 +1604,10 @@ function run() {
                     stdout: data => core.setOutput('stdout', data)
                 }
             };
+            core.startGroup('pid atatata');
+            const state = core.getState(constants_1.ALLURECTL_PID);
+            core.info(`allurectl upload pid ${state}`);
+            core.endGroup();
             core.startGroup('wait for 10 seconds to finish upload');
             // wait for 3 seconds to start upload and so on
             yield new Promise(resolve => setTimeout(() => resolve('done'), 10 * 1000));
