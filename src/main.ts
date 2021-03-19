@@ -34,13 +34,7 @@ async function run(): Promise<void> {
     // can't use exec https://github.com/actions/toolkit/issues/461.
     const cp = child.spawn(
       'allurectl',
-      [
-        'upload',
-        '--job-run-child',
-        '--timeout',
-        '1800',
-        './build/allure-results'
-      ],
+      ['upload', '--job-run-child', '--timeout', '1800', '.'],
       {
         stdio: ['ignore', sout, serr],
         detached: true

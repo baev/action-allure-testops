@@ -1620,13 +1620,7 @@ function run() {
             const sout = fs.openSync('./out.log', 'a');
             const serr = fs.openSync('./out.log', 'a');
             // can't use exec https://github.com/actions/toolkit/issues/461.
-            const cp = child.spawn('allurectl', [
-                'upload',
-                '--job-run-child',
-                '--timeout',
-                '1800',
-                './build/allure-results'
-            ], {
+            const cp = child.spawn('allurectl', ['upload', '--job-run-child', '--timeout', '1800', '.'], {
                 stdio: ['ignore', sout, serr],
                 detached: true
             });
