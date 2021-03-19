@@ -1607,10 +1607,13 @@ function run() {
             const state = core.getState(constants_1.ALLURECTL_PID);
             core.startGroup('check allurectl upload');
             core.info(`allurectl upload pid ${state}`);
-            yield exec_1.exec('ps', ['-p', state], execOpts);
+            yield exec_1.exec('ps', ['-p', state], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             core.endGroup();
             core.startGroup('shut down allurectl upload');
             yield exec_1.exec('kill', ['-3', state], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
+            core.endGroup();
+            core.startGroup('allurectl upload');
+            yield exec_1.exec('allurectl upload --job-run-child build/allure-results');
             core.endGroup();
             core.startGroup('allurectl job-run stop');
             yield exec_1.exec('allurectl job-run stop', [], execOpts);

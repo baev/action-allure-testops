@@ -19,11 +19,15 @@ async function run(): Promise<void> {
 
     core.startGroup('check allurectl upload')
     core.info(`allurectl upload pid ${state}`)
-    await exec('ps', ['-p', state], execOpts)
+    await exec('ps', ['-p', state], {...execOpts, ignoreReturnCode: true})
     core.endGroup()
 
     core.startGroup('shut down allurectl upload')
     await exec('kill', ['-3', state], {...execOpts, ignoreReturnCode: true})
+    core.endGroup()
+
+    core.startGroup('allurectl upload')
+    await exec('allurectl upload --job-run-child build/allure-results')
     core.endGroup()
 
     core.startGroup('allurectl job-run stop')
