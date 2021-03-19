@@ -1607,14 +1607,12 @@ function run() {
                     stdout: data => core.setOutput('stdout', data)
                 }
             };
-            yield exec_1.exec('cat', ['out.log'], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
+            core.startGroup('shut down allurectl upload');
             const state = core.getState(constants_1.ALLURECTL_PID);
-            core.startGroup('check allurectl upload');
             core.info(`allurectl upload pid ${state}`);
             yield exec_1.exec('ps', ['-p', state], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
-            core.endGroup();
-            core.startGroup('shut down allurectl upload');
             yield exec_1.exec('kill', ['-3', state], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
+            yield exec_1.exec('cat', ['out.log'], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             core.endGroup();
             //
             // core.startGroup('allurectl upload')

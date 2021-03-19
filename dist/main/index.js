@@ -1625,7 +1625,7 @@ function run() {
                 '--job-run-child',
                 '--timeout',
                 '1800',
-                'build/allure-results'
+                './build/allure-results'
             ], {
                 stdio: ['ignore', sout, serr],
                 detached: true

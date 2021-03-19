@@ -15,18 +15,14 @@ async function run(): Promise<void> {
       }
     }
 
-    await exec('cat', ['out.log'], {...execOpts, ignoreReturnCode: true})
-
+    core.startGroup('shut down allurectl upload')
     const state = core.getState(ALLURECTL_PID)
-
-    core.startGroup('check allurectl upload')
     core.info(`allurectl upload pid ${state}`)
     await exec('ps', ['-p', state], {...execOpts, ignoreReturnCode: true})
+    await exec('kill', ['-3', state], {...execOpts, ignoreReturnCode: true})
+    await exec('cat', ['out.log'], {...execOpts, ignoreReturnCode: true})
     core.endGroup()
 
-    core.startGroup('shut down allurectl upload')
-    await exec('kill', ['-3', state], {...execOpts, ignoreReturnCode: true})
-    core.endGroup()
     //
     // core.startGroup('allurectl upload')
     // await exec('allurectl upload --job-run-child build/allure-results')
