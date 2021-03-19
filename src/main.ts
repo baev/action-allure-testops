@@ -25,12 +25,16 @@ async function run(): Promise<void> {
 
     core.startGroup('allurectl upload')
 
+    // run without await as we need to detach.
     exec(
       'allurectl upload --job-run-child --timeout 1800 build/allure-results',
       [],
       execOpts
     )
     core.endGroup()
+
+    // skip wait on child processes
+    process.exit(0)
   } catch (error) {
     core.setFailed(error.message)
   }
