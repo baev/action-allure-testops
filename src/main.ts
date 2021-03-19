@@ -3,6 +3,7 @@ import {exec} from '@actions/exec'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import * as child from 'child_process'
 import {ALLURECTL_PID} from './constants'
+import * as fs from 'fs'
 
 async function run(): Promise<void> {
   try {
@@ -27,6 +28,9 @@ async function run(): Promise<void> {
 
     core.startGroup('allurectl upload')
 
+    const sout = fs.openSync('./out.log', 'a')
+    const serr = fs.openSync('./out.log', 'a')
+
     // can't use exec https://github.com/actions/toolkit/issues/461.
     const cp = child.spawn(
       'allurectl',
@@ -38,7 +42,7 @@ async function run(): Promise<void> {
         'build/allure-results'
       ],
       {
-        stdio: 'ignore',
+        stdio: ['ignore', sout, serr],
         detached: true
       }
     )

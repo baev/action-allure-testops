@@ -15,6 +15,8 @@ async function run(): Promise<void> {
       }
     }
 
+    await exec('cat', ['out.log'], {...execOpts, ignoreReturnCode: true})
+
     const state = core.getState(ALLURECTL_PID)
 
     core.startGroup('check allurectl upload')

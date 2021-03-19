@@ -1550,8 +1550,11 @@ function copyFile(srcFile, destFile, force) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ALLURECTL_PID = void 0;
+exports.ENV_ALLURE_PROJECT_ID = exports.ENV_ALLURE_TOKEN = exports.ENV_ALLURE_ENDPOINT = exports.ALLURECTL_PID = void 0;
 exports.ALLURECTL_PID = 'ALLURECTL_PID';
+exports.ENV_ALLURE_ENDPOINT = 'ALLURE_ENDPOINT';
+exports.ENV_ALLURE_TOKEN = 'ALLURE_TOKEN';
+exports.ENV_ALLURE_PROJECT_ID = 'ALLURE_PROJECT_ID';
 
 
 /***/ }),
@@ -1593,6 +1596,7 @@ const core = __importStar(__webpack_require__(186));
 const exec_1 = __webpack_require__(514);
 const child = __importStar(__webpack_require__(129));
 const constants_1 = __webpack_require__(42);
+const fs = __importStar(__webpack_require__(747));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -1613,6 +1617,8 @@ function run() {
             yield exec_1.exec('allurectl job-run plan --output-file', [testPlanJson], execOpts);
             core.endGroup();
             core.startGroup('allurectl upload');
+            const sout = fs.openSync('./out.log', 'a');
+            const serr = fs.openSync('./out.log', 'a');
             // can't use exec https://github.com/actions/toolkit/issues/461.
             const cp = child.spawn('allurectl', [
                 'upload',
@@ -1621,7 +1627,7 @@ function run() {
                 '1800',
                 'build/allure-results'
             ], {
-                stdio: 'ignore',
+                stdio: ['ignore', sout, serr],
                 detached: true
             });
             core.saveState(constants_1.ALLURECTL_PID, cp.pid);

@@ -1550,8 +1550,11 @@ function copyFile(srcFile, destFile, force) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ALLURECTL_PID = void 0;
+exports.ENV_ALLURE_PROJECT_ID = exports.ENV_ALLURE_TOKEN = exports.ENV_ALLURE_ENDPOINT = exports.ALLURECTL_PID = void 0;
 exports.ALLURECTL_PID = 'ALLURECTL_PID';
+exports.ENV_ALLURE_ENDPOINT = 'ALLURE_ENDPOINT';
+exports.ENV_ALLURE_TOKEN = 'ALLURE_TOKEN';
+exports.ENV_ALLURE_PROJECT_ID = 'ALLURE_PROJECT_ID';
 
 
 /***/ }),
@@ -1604,6 +1607,7 @@ function run() {
                     stdout: data => core.setOutput('stdout', data)
                 }
             };
+            yield exec_1.exec('cat', ['out.log'], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             const state = core.getState(constants_1.ALLURECTL_PID);
             core.startGroup('check allurectl upload');
             core.info(`allurectl upload pid ${state}`);
