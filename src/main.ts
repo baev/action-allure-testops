@@ -27,6 +27,7 @@ async function run(): Promise<void> {
 
     core.startGroup('allurectl upload')
 
+    // can't use exec https://github.com/actions/toolkit/issues/461.
     const cp = child.spawn(
       'allurectl',
       [
@@ -41,22 +42,10 @@ async function run(): Promise<void> {
         detached: true
       }
     )
+    cp.unref()
 
     core.saveState(ALLURECTL_PID, cp.pid)
-
-    //
-    // // https://github.com/actions/toolkit/issues/461.
-    // await exec(
-    //   `/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`,
-    //   [],
-    //   execOpts
-    // )
-
     core.endGroup()
-    //
-    // await exec('echo $!', [], execOpts)
-    //
-    // process.exit(0)
   } catch (error) {
     core.setFailed(error.message)
   }

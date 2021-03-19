@@ -1604,20 +1604,13 @@ function run() {
                     stdout: data => core.setOutput('stdout', data)
                 }
             };
-            core.startGroup('pid atatata');
             const state = core.getState(constants_1.ALLURECTL_PID);
+            core.startGroup('check allurectl upload');
             core.info(`allurectl upload pid ${state}`);
             yield exec_1.exec('ps', ['-p', state], execOpts);
             core.endGroup();
-            core.startGroup('wait for 10 seconds to finish upload');
-            // wait for 3 seconds to start upload and so on
-            yield new Promise(resolve => setTimeout(() => resolve('done'), 10 * 1000));
-            core.endGroup();
-            core.startGroup('pgrep allurectl');
-            yield exec_1.exec('pgrep allurectl', [], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
-            core.endGroup();
-            core.startGroup('pkill allurectl');
-            yield exec_1.exec('pkill allurectl', [], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
+            core.startGroup('shut down allurectl upload');
+            yield exec_1.exec('kill', ['-3', state], Object.assign(Object.assign({}, execOpts), { ignoreReturnCode: true }));
             core.endGroup();
             core.startGroup('allurectl job-run stop');
             yield exec_1.exec('allurectl job-run stop', [], execOpts);

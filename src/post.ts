@@ -15,25 +15,15 @@ async function run(): Promise<void> {
       }
     }
 
-    core.startGroup('pid atatata')
     const state = core.getState(ALLURECTL_PID)
+
+    core.startGroup('check allurectl upload')
     core.info(`allurectl upload pid ${state}`)
-
     await exec('ps', ['-p', state], execOpts)
-
     core.endGroup()
 
-    core.startGroup('wait for 10 seconds to finish upload')
-    // wait for 3 seconds to start upload and so on
-    await new Promise(resolve => setTimeout(() => resolve('done'), 10 * 1000))
-    core.endGroup()
-
-    core.startGroup('pgrep allurectl')
-    await exec('pgrep allurectl', [], {...execOpts, ignoreReturnCode: true})
-    core.endGroup()
-
-    core.startGroup('pkill allurectl')
-    await exec('pkill allurectl', [], {...execOpts, ignoreReturnCode: true})
+    core.startGroup('shut down allurectl upload')
+    await exec('kill', ['-3', state], {...execOpts, ignoreReturnCode: true})
     core.endGroup()
 
     core.startGroup('allurectl job-run stop')

@@ -1613,6 +1613,7 @@ function run() {
             yield exec_1.exec('allurectl job-run plan --output-file', [testPlanJson], execOpts);
             core.endGroup();
             core.startGroup('allurectl upload');
+            // can't use exec https://github.com/actions/toolkit/issues/461.
             const cp = child.spawn('allurectl', [
                 'upload',
                 '--job-run-child',
@@ -1623,19 +1624,9 @@ function run() {
                 stdio: ['ignore', process.stdout, process.stderr],
                 detached: true
             });
+            cp.unref();
             core.saveState(constants_1.ALLURECTL_PID, cp.pid);
-            //
-            // // https://github.com/actions/toolkit/issues/461.
-            // await exec(
-            //   `/bin/bash -c "allurectl upload --job-run-child --timeout 1800 build/allure-results &"`,
-            //   [],
-            //   execOpts
-            // )
             core.endGroup();
-            //
-            // await exec('echo $!', [], execOpts)
-            //
-            // process.exit(0)
         }
         catch (error) {
             core.setFailed(error.message);
