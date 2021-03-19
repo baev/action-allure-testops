@@ -1,16 +1,14 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {exec} from '@actions/exec'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const testPlanJson = './testplan.json'
+    await exec('allurectl job-run start')
+    await exec('allurectl job-run plan --output-file', [testPlanJson])
+    await exec(
+      'allurectl upload --job-run-child --timeout 1800 target/allure-results & echo "upload started"'
+    )
   } catch (error) {
     core.setFailed(error.message)
   }
