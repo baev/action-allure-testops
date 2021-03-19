@@ -27,7 +27,7 @@ async function run(): Promise<void> {
 
     // run without await as we need to detach.
     exec(
-      'allurectl upload --job-run-child --timeout 1800 build/allure-results',
+      'allurectl upload --job-run-child --timeout 1800 build/allure-results &',
       [],
       execOpts
     )
