@@ -1,6 +1,14 @@
 name: 'Allure TestOps'
 description: 'Allure TestOps integration'
 author: 'Qameta Software'
+inputs:
+  results:
+    required: true
+    description: the path to allure-results
+  timeout:
+    required: false
+    description: the uploader timout in seconds. Defautls to 1800 (30min)
+    default: '1800'
 runs:
   using: 'node12'
   main: 'dist/main/index.js'

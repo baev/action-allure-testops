@@ -1,3 +1,5 @@
+export const INPUT_RESULTS = 'results'
+export const INPUT_TIMEOUT = 'timeout'
 export const ALLURECTL_PID = 'ALLURECTL_PID'
 export const ENV_ALLURE_ENDPOINT = 'ALLURE_ENDPOINT'
 export const ENV_ALLURE_TOKEN = 'ALLURE_TOKEN'

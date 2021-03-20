@@ -1550,7 +1550,9 @@ function copyFile(srcFile, destFile, force) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ENV_ALLURE_PROJECT_ID = exports.ENV_ALLURE_TOKEN = exports.ENV_ALLURE_ENDPOINT = exports.ALLURECTL_PID = void 0;
+exports.ENV_ALLURE_PROJECT_ID = exports.ENV_ALLURE_TOKEN = exports.ENV_ALLURE_ENDPOINT = exports.ALLURECTL_PID = exports.INPUT_TIMEOUT = exports.INPUT_RESULTS = void 0;
+exports.INPUT_RESULTS = 'results';
+exports.INPUT_TIMEOUT = 'timeout';
 exports.ALLURECTL_PID = 'ALLURECTL_PID';
 exports.ENV_ALLURE_ENDPOINT = 'ALLURE_ENDPOINT';
 exports.ENV_ALLURE_TOKEN = 'ALLURE_TOKEN';
@@ -1619,8 +1621,10 @@ function run() {
             core.startGroup('allurectl upload');
             const sout = fs.openSync('./out.log', 'a');
             const serr = fs.openSync('./out.log', 'a');
+            const allureResults = core.getInput(constants_1.INPUT_RESULTS, { required: true });
+            const timeout = core.getInput(constants_1.INPUT_TIMEOUT, { required: true });
             // can't use exec https://github.com/actions/toolkit/issues/461.
-            const cp = child.spawn('allurectl', ['upload', '--job-run-child', '--timeout', '1800', '.'], {
+            const cp = child.spawn('allurectl', ['upload', '--job-run-child', '--timeout', timeout, allureResults], {
                 stdio: ['ignore', sout, serr],
                 detached: true
             });

@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import {exec} from '@actions/exec'
 import {ExecOptions} from '@actions/exec/lib/interfaces'
 import * as child from 'child_process'
-import {ALLURECTL_PID} from './constants'
+import {ALLURECTL_PID, INPUT_RESULTS, INPUT_TIMEOUT} from './constants'
 import * as fs from 'fs'
 
 async function run(): Promise<void> {
@@ -31,10 +31,12 @@ async function run(): Promise<void> {
     const sout = fs.openSync('./out.log', 'a')
     const serr = fs.openSync('./out.log', 'a')
 
+    const allureResults = core.getInput(INPUT_RESULTS, {required: true})
+    const timeout = core.getInput(INPUT_TIMEOUT, {required: true})
     // can't use exec https://github.com/actions/toolkit/issues/461.
     const cp = child.spawn(
       'allurectl',
-      ['upload', '--job-run-child', '--timeout', '1800', '.'],
+      ['upload', '--job-run-child', '--timeout', timeout, allureResults],
       {
         stdio: ['ignore', sout, serr],
         detached: true
